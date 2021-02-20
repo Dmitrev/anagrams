@@ -8,6 +8,7 @@ use Iterator;
 
 class AnagramFinder
 {
+    private int $currentLength = 0;
 
     public function __construct(
         private Iterator $iterator
@@ -31,16 +32,19 @@ class AnagramFinder
 
     public function getAll(): Generator
     {
-        $currentLength = strlen($this->iterator->current());
+        // Always make sure we are at the beginning of our input
+        $this->iterator->rewind();
+
+        $this->currentLength = strlen($this->iterator->current());
         $buffer = [];
 
         while($this->iterator->valid()) {
             $currentWord = $this->iterator->current();
 
             // We reached a longer word
-            if (strlen($currentWord) !== $currentLength) {
+            if ($this->longerThanPrevious($currentWord)) {
                 yield $this->groupWords($buffer);
-                $currentLength = strlen($currentWord);
+                $this->setNewLength($currentWord);
                 $buffer = [];
             }
 
@@ -49,5 +53,15 @@ class AnagramFinder
         }
 
         yield $this->groupWords($buffer);
+    }
+
+    public function longerThanPrevious(string $word): bool
+    {
+        return strlen($word) > $this->currentLength;
+    }
+
+    private function setNewLength(string $word)
+    {
+        $this->currentLength = strlen($word);
     }
 }

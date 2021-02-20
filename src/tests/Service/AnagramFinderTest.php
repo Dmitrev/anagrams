@@ -66,4 +66,28 @@ class AnagramFinderTest extends TestCase
 
         $this->assertEquals($expected, $actual);
     }
+
+    public function testCanHandleNonResetIterator()
+    {
+        $data = [
+            'ab',
+            'ba', // <- We will manually set the iterator to start here
+            'cab',
+            'bca',
+            'acb',
+        ];
+
+        $iterator = new ArrayIterator($data);
+        $iterator->next();
+
+        $finder = new AnagramFinder(
+            $iterator
+        );
+
+        $firstResult = $finder->getAll()->current();
+
+        $this->assertEquals([
+            ['ab', 'ba']
+        ], $firstResult);
+    }
 }

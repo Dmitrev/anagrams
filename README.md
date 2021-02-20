@@ -40,3 +40,8 @@ Sample output
 ✓ fun, fun, unf
 ✓ hello
 ```
+
+## Running test suite
+```
+docker-compose run anagram phpunit --testdox
+```
