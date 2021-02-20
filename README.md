@@ -78,16 +78,16 @@ since I can assume that all the words of the same length can fit into memory.
 
 **File Iterator**
 I've written a custom class to read the file line by line. When going to the next line there
-is a quirk where the File Iterator reads the same line twice to skip it if it's blank. I had to implement that since
-a lot of editors make new lines at the of the file.
+is a quirk where the File Iterator reads the same line twice to skip it if it's blank. I had to implement that last minute 
+since a lot of editors make new lines at the of the file.
 
 I would refactor that class slightly to only ever read a line once and let the Anagram finder code handle empty words
 
 **Anagram Finder**
-There is some duplicate related to finding the anagrams from the current input buffer.
-Since the loop ends when the file is complete read at the end there will always be a buffer left over.
+There is as duplicate line in the function for finding the anagrams from the current input buffer.
+Since the loop ends when the file read is completed there will always be a buffer left over.
 So I made another call at the end of function. I would refactor this function by separating the creation of the
-buffer and the anagram function
+buffer from the anagram finding function.
 
 ```php
 yield $this->groupWords($buffer);
